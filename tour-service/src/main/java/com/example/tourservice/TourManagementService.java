@@ -22,4 +22,13 @@ public class TourManagementService {
     public Tour createTour(String title, Integer price, Boolean isKidFriendly) {
         return tourRepository.save(new Tour(title, price, isKidFriendly));
     }
+
+    public void displayTours() {
+        tourRepository.findAll().stream().forEach(System.out::println);
+    }
+
+    public void displayToursBy(boolean isKidFriendly) {
+        tourRepository.findByType(isKidFriendly)
+        .stream().forEach(System.out::println);
+    }
 }

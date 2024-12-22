@@ -3,6 +3,7 @@ package com.example;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import com.example.tourservice.TourManagementService;
 import com.example.tourservice.TravelAgentService;
 
 public class Application {
@@ -16,5 +17,13 @@ public class Application {
 
         System.out.println("\n******Explore California Tour Kid Friendly Tours******");
         agent.displayToursBy(true);
+
+        TourManagementService tour = context.getBean(TourManagementService.class);
+        tour.createTour("Zoo Tour", 100, true);
+        System.out.println("\n ********************Tour Management Exercise******************");
+        tour.displayTours();
+        System.out.println("\n******Explore California Tour Kid Friendly Tours******");
+        tour.displayToursBy(true);
+
     }
 }
