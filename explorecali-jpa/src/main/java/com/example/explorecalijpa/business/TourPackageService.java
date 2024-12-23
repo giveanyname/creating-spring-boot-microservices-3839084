@@ -1,9 +1,11 @@
 package com.example.explorecalijpa.business;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.explorecalijpa.model.Tour;
 import com.example.explorecalijpa.model.TourPackage;
 import com.example.explorecalijpa.repo.TourPackageRepository;
 
@@ -26,5 +28,9 @@ public class TourPackageService {
 
   public long total() {
     return tourPackageRepository.count();
+  }
+
+  public Optional<TourPackage> findByPackageName(String code) {
+    return tourPackageRepository.findById(code);
   }
 }

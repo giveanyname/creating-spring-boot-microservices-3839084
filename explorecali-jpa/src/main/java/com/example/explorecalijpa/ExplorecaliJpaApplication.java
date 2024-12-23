@@ -2,6 +2,8 @@ package com.example.explorecalijpa;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import com.example.explorecalijpa.business.TourPackageService;
 import com.example.explorecalijpa.business.TourService;
 import com.example.explorecalijpa.model.Difficulty;
 import com.example.explorecalijpa.model.Region;
+import com.example.explorecalijpa.model.Tour;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,7 +40,7 @@ public class ExplorecaliJpaApplication implements CommandLineRunner {
         System.out.println("Persisted Packages = " + tourPackageService.total());
         createToursFromFile(TOUR_IMPORT_FILE);
         System.out.println("Persisted Tours = " + tourService.total());
-       
+
         /********* CHALLENGES **********/
         System.out.println("\n\nEasy Tours");
         tourService.lookupByDifficulty(Difficulty.Easy).forEach(System.out::println);
@@ -53,7 +56,23 @@ public class ExplorecaliJpaApplication implements CommandLineRunner {
      * 
      */
     private void printToursChallenge() {
-
+        /*
+         * tourPackageService.lookupAll().stream().forEach(n-> {
+         * System.out.println(n.getName());
+         * 
+         * List<Tour> tours = new ArrayList<>();
+         * if(n.getName() != null) {
+         * tours = tourService.lookupByPackage(n.getName());
+         * }
+         * if(tours.size() > 0) {
+         * tours.stream().forEach( t->{
+         * System.out.println(t.getTourPackage());
+         * System.out.println(t.getDescription());
+         * }
+         * );
+         * }}
+         * );
+         */
     }
 
     /**
@@ -95,7 +114,8 @@ public class ExplorecaliJpaApplication implements CommandLineRunner {
             String blurb, Integer price, String length, String bullets,
             String keywords, String difficulty, String region) {
         static List<TourFromFile> read(String fileToImport) throws IOException {
-            return new ObjectMapper().readValue(new File(fileToImport),
+            InputStream inputStream = TourFromFile.class.getResourceAsStream("/" + fileToImport);
+            return new ObjectMapper().readValue(inputStream,
                     new TypeReference<List<TourFromFile>>() {
                     });
         }
